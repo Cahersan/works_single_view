@@ -74,6 +74,10 @@ PATCH /works/<work_uid>/
 GET /works/<work_uid>/
 
 DELETE /works/<work_uid>/
+
+GET /works/csv
+
+POST /works/csv
 ```
 
 

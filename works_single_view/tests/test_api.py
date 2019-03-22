@@ -1,6 +1,11 @@
+import os
+
 from rest_framework.test import APITestCase
 
 from works_single_view.models import Work
+
+
+here = os.path.dirname(os.path.abspath(__file__))
 
 
 class TestWorksAPI(APITestCase):
@@ -85,4 +90,15 @@ class TestWorksAPI(APITestCase):
         assert response.status_code == 204
         assert not Work.objects.filter(uid=self.work_1.uid).first()
 
+    def test_import_csv(self):
 
+        with open(here + '/works_metadata.csv', 'rb') as csvfile:
+            response = self.client.post('/works/csv/', {'file': csvfile}, format='multipart')
+
+        assert response.status_code == 200
+        assert response.json() == {'message': 'Successfully imported works from CSV file'}
+
+    def test_export_csv(self):
+        response = self.client.get('/works/csv/')
+
+        assert response.status_code == 200
