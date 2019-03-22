@@ -1,23 +1,9 @@
-from rest_framework import generics
+from rest_framework.viewsets import ModelViewSet
 
 from .serializers import WorksSerializer
+from .models import Work
 
 
-class CreateWorksAPIView(generics.CreateAPIView):
+class WorksViewSet(ModelViewSet):
     serializer_class = WorksSerializer
-
-
-class ListCreateWorksAPIView(generics.ListCreateAPIView):
-    serializer_class = WorksSerializer
-
-
-class RetrieveWorksAPIView(generics.RetrieveAPIView):
-    serializer_class = WorksSerializer
-
-
-class UpdateWorksAPIView(generics.UpdateAPIView):
-    serializer_class = WorksSerializer
-
-
-class DeleteWorksAPIView(generics.DestroyAPIView):
-    serializer_class = WorksSerializer
+    queryset = Work.objects.all()

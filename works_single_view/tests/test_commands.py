@@ -10,7 +10,7 @@ from works_single_view.models import Work
 here = os.path.dirname(os.path.abspath(__file__))
 
 
-class TestWorksSingleView(TestCase):
+class TestWorksCommands(TestCase):
 
     def test_import_data_from_csv(self):
 

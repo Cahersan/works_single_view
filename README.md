@@ -1,6 +1,18 @@
 Works Single View
 =================
 
+This is a python 3 project.
+
+Python Dependencies
+-------------------
+
+The python dependencies are listed in `requirements.txt`. Install them in your
+virtual environment via:
+
+```sh
+pip install -r requirements.txt
+```
+
 Setting the database
 --------------------
 
@@ -52,25 +64,24 @@ python manage.py import_works <file>
 API Description
 ---------------
 
-GET api/works
+```
+GET /works/
 
-Filters 
-title,contributors,iswc,source,uid,id
+POST /works/
 
-POST api/works
-title,contributors,iswc,source,uid,id
+PATCH /works/<work_uid>/
 
-POST api/works/file
-file
+GET /works/<work_uid>/
 
-POST api/works/list
-works
+DELETE /works/<work_uid>/
+```
 
 
 Possible improvements
 ---------------------
 
-* Pagination for API list returns
+* Pagination and filtering of API list returns
 * Environment variables via django-environ and database configration via DATABASE_URL
 * If this were a project to be used in production I'd use https://github.com/pydanny/cookiecutter-django
   to set the project's scaffolding.
+* Authentication for API calls
