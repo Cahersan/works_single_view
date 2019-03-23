@@ -7,4 +7,4 @@ class WorksSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Work
-        fields = '__all__'
+        fields = ('uid', 'title', 'iswc', 'contributors', 'source', 'source_id')

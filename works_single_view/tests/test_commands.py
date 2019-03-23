@@ -25,4 +25,84 @@ class TestWorksCommands(TestCase):
 
         management.call_command('import_works', here + '/works_metadata.csv')
 
-        assert Work.objects.count() == 8
+        # From introspecting the works_metadata.csv file, 4 different works should
+        # result from import
+        assert Work.objects.count() == 4
+
+        # Now lets see if the data in the database is what we expected
+        expected = [
+            {
+                'title': 'Adventure of a Lifetime',
+                'contributors': [
+                    'O Brien Edward John',
+                    'Yorke Thomas Edward',
+                    'Greenwood Colin Charles',
+                    'Selway Philip James'
+                ],
+                'iswc':'T0101974597',
+                'source':'warner',
+                'source_id':2,
+                'alternate':{
+                    'iswc': [],
+                    'title':[],
+                    'source':[],
+                    'source_id':['3'],
+                }
+            },
+            {
+                'title': 'Me Enamoré',
+                'contributors': [
+                    'Rayo Gibo Antonio',
+                    'Ripoll Shakira Isabel Mebarak'
+                ],
+                'iswc':'T9214745718',
+                'source':'universal',
+                'source_id':1,
+                'alternate':{
+                    'iswc': [],
+                    'title':['Me Enamore'],
+                    'source':['warner'],
+                    'source_id':['4'],
+                }
+            },
+            {
+                'title': 'Je ne sais pas',
+                'contributors': [
+                    'Obispo Pascal Michel',
+                    'Florence Lionel Jacques'
+                ],
+                'iswc':'T0046951705',
+                'source':'sony',
+                'source_id':2,
+                'alternate':{
+                    'iswc': [],
+                    'title':[],
+                    'source':[],
+                    'source_id':['3'],
+                }
+            },
+            {
+                'title': 'Shape of You',
+                'contributors': [
+                    'Edward Sheeran',
+                    'Edward Christopher Sheeran'
+                ],
+                'iswc':'T9204649558',
+                'source':'warner',
+                'source_id':1,
+                'alternate':{
+                    'iswc': [],
+                    'title':[],
+                    'source':['sony'],
+                    'source_id':['1'],
+                }
+            }
+        ]
+
+        for work in expected:
+            imported_as_dict = Work.objects.get(title=work['title']).__dict__
+
+            imported_as_dict.pop('_state')
+            imported_as_dict.pop('uid')
+
+            assert imported_as_dict == work
