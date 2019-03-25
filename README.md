@@ -16,6 +16,7 @@ pip install -r requirements.txt
 Setting the database
 --------------------
 
+This will depend on your system. For Ubuntu here is a good tutorial.
 https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04
 
 ```
@@ -94,7 +95,11 @@ GET /works/
 
 POST /works/
 
+    - JSON fields: title (str), contributors(list(str)), iswc, (str), source(str), source_id(int)
+
 PATCH /works/<work_uid>/
+
+    - JSON fields: title (str), contributors(list(str)), iswc, (str), source(str), source_id(int)
 
 GET /works/<work_uid>/
 
@@ -102,9 +107,13 @@ DELETE /works/<work_uid>/
 
 GET /works/csv/
 
-POST /works/csv/
-```
+    - Export all works to a csv file
 
+POST /works/csv/
+
+    - Import works from a csv file
+    - JSON fields: file (binary)
+```
 
 Possible improvements
 ---------------------
@@ -114,3 +123,34 @@ Possible improvements
 * If this were a project to be used in production I'd use https://github.com/pydanny/cookiecutter-django
   to set the project's scaffolding.
 * Authentication for API calls
+
+Questions
+---------
+
+* Part 1
+
+1. Describe briefly the matching and reconciling method chosen.
+
+    Done above.
+
+2. We constantly receive metadata from our providers, how would
+you automatize the process?
+
+    It depends on the source. The API can be used to update the database if a proper
+    UI is created that is user friendly for our providers. An interesting solution for 
+    importing metadata in bulk from csv files is to create a AWS S3 bucket where the
+    provider uploads csv files. This put operation could trigger a Lambda that in
+    turn handles the import of the csv file via an specific script or by calling
+    the API provided by our Django app.
+
+* Part 2
+
+1. Imagine that the Single View has 20 million musical works, do
+you think your solution would have a similar response time?
+
+    No. Due to the size of the database, querying would take longer. 
+
+2. If not, what would you do to improve it?
+
+    Database queries can be optimized by writing raw sql optimized queries or
+    by using a search engine that indexes queries like Elasticsearch.
